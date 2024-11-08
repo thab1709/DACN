@@ -1,0 +1,17 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State when the radio button is checked -->
+    <item
+        android:drawable="@drawable/img"
+        android:state_checked="true" />
+
+    <!-- State when the radio button is unchecked -->
+    <item
+        android:drawable="@drawable/img"
+        android:state_checked="false" />
+
+    <!-- Optional: Default state (uncomment if needed) -->
+    <!--
+    <item android:drawable="@drawable/radio_button_unselected" />
+    -->
+</selector>
+
