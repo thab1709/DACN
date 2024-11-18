@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Đặt bán kính cho các góc (bo tròn) -->
+    <corners android:radius="12dp" />
+
+    <!-- Đặt màu nền nâu gỗ -->
+    <solid android:color="#BF733D" /> <!-- Đây là mã màu nâu gỗ, có thể thay đổi nếu cần -->
+
+    <!-- Đặt viền màu xám nhạt với độ dày 2dp -->
+    <stroke
+        android:width="2dp"
+        android:color="#D3D3D3" /> <!-- Light gray -->
+
+    <!-- Tùy chọn padding, nếu muốn khoảng cách bên trong -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp" />
+</shape>

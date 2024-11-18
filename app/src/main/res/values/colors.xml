@@ -7,5 +7,14 @@
     <color name="orange">#FF5722</color>
     <color name="teal">#00796B</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="yellow_gold">#FAED26</color>
+    <color name="brown">#9B786F</color>
+    <color name="dark_purple">#46344E</color>
+    <color name="light_gray">#9D8D8F</color>
+    <color name="purple_200">#FDCF76</color>
+    <color name="shadowDialog">#79817C7C</color>
+    <color name="hongnhat">#FFEAE3</color>
+    <color name="grey">#FF808080</color>
 
 </resources>

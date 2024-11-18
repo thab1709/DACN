@@ -1,29 +1,43 @@
 package com.example.smartrecyclingapp;
 
+
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.smartrecyclingapp.Database.Database;
 import com.example.smartrecyclingapp.ml.ModelUnquant;
+import com.google.android.material.navigation.NavigationView;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -33,6 +47,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.List;
+import android.widget.MediaController;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
+import com.example.smartrecyclingapp.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
@@ -41,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 103;
 
     private ImageView imgReturned;
-    private TextView tvUploadImage, tvInfor, tvResult;
+    private TextView tvUploadImage, tvInfor, tvResult, Title, Message;
     private Uri imageUri;
     private Button btnsubmit;
     private Bitmap selectedBitmap;
@@ -49,18 +67,99 @@ public class MainActivity extends AppCompatActivity {
     private SliderAdapter adapter;
     private Handler sliderHandler = new Handler(Looper.getMainLooper()); // Thêm Handler để tự động chuyển ảnh
     int imageSize = 224; // Kích thước ảnh cần thiết cho mô hình
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView = findViewById(R.id.nav_view);
         imgReturned = findViewById(R.id.img_returned);
         tvUploadImage = findViewById(R.id.tv_upload_image);
         tvInfor = findViewById(R.id.tv_info);
         btnsubmit = findViewById(R.id.btn_submit);
         tvResult = findViewById(R.id.tvResult);
         viewPager = findViewById(R.id.viewPager);
+
+        // Nhận giá trị username từ Intent
+        String username = getIntent().getStringExtra("userNameTextView");
+
+        if (username != null) {
+            // Lấy NavigationView và headerView
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            View headerView = navigationView.getHeaderView(0);  // Lấy headerView từ NavigationView
+
+            // Tìm TextView trong headerView
+            TextView userNameTextView = headerView.findViewById(R.id.header_user_name);
+
+            // Gán username vào TextView
+            userNameTextView.setText(username);
+        }
+
+
+
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+
+                if (id == R.id.itManHinhChinh) {
+                    // Xử lý khi người dùng chọn "Màn hình chính"
+                    Toast.makeText(MainActivity.this, "Chọn Màn hình chính", Toast.LENGTH_SHORT).show();
+                    Intent mainIntent = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
+                } else if (id == R.id.itThongtincanhan) {
+                    // Xử lý khi người dùng chọn "Thông tin cá nhân"
+                    Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                    Toast.makeText(MainActivity.this, "Chọn Thông tin cá nhân", Toast.LENGTH_SHORT).show();
+                    setContentView(R.layout.activity_profile2);
+                    EditText edtFullName2 = findViewById(R.id.edtHovaTen2);   // EditText cho Họ và tên
+                    EditText edtUserName2 = findViewById(R.id.edtUsername2);   // EditText cho Username
+                    EditText edtPhoneNumber2 = findViewById(R.id.edtSoDienThoai2);  // EditText cho Số điện thoại
+                    String fullName = getIntent().getStringExtra("fullName");
+
+                    String phoneNumber = getIntent().getStringExtra("phoneNumber");
+                    profileIntent.putExtra("fullName", fullName);
+
+                    profileIntent.putExtra("phoneNumber", phoneNumber);
+                    edtFullName2.setText(fullName);
+
+                    edtPhoneNumber2.setText(phoneNumber);
+
+                    startActivity(profileIntent);
+                } else if (id == R.id.itDoiMatKhau) {
+                    // Xử lý khi người dùng chọn "Đổi mật khẩu"
+                    Intent changePasswordIntent = new Intent(MainActivity.this, ChangePasswordActivity.class);
+                    startActivity(changePasswordIntent);
+                } else if (id == R.id.itlichsunhandien) {
+                    // Xử lý khi người dùng chọn "Lịch sử nhận diện"
+                    Toast.makeText(MainActivity.this, "Chọn Lịch sử nhận diện", Toast.LENGTH_SHORT).show();
+                    Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
+                    startActivity(historyIntent);
+                } else if (id == R.id.itDangXuat) {
+                    // Xử lý khi người dùng chọn "Đăng Xuất"
+                    Toast.makeText(MainActivity.this, "Bạn đã Đăng xuất", Toast.LENGTH_SHORT).show();
+                    Intent logoutIntent = new Intent(MainActivity.this, manhinhlogin.class);
+                    startActivity(logoutIntent);
+                    finish();  // Đóng MainActivity sau khi đăng xuất
+                }
+
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
 
         List<Integer> images = Arrays.asList(
                 R.drawable.img_11,
@@ -93,6 +192,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
 
     private void startAutoSlider() {
         sliderHandler.postDelayed(sliderRunnable, 3000); // Chuyển ảnh sau mỗi 3 giây
@@ -170,11 +274,73 @@ public class MainActivity extends AppCompatActivity {
 
             String[] classes = {"Nhựa", "Kim loại", "Bìa cứng", "Thủy tinh", "Giấy"};
             tvResult.setText(classes[maxPos]);
+            showCustomDialog(classes[maxPos]);
+
 
             model.close();
         } catch (IOException | OutOfMemoryError e) {
             Toast.makeText(this, "Không thể xử lý ảnh. Vui lòng chọn ảnh nhỏ hơn.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showCustomDialog(String detectedClass) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_recycling_guide, null);
+        builder.setView(dialogView);
+        TextView title = dialogView.findViewById(R.id.Title);
+        TextView message = dialogView.findViewById(R.id.Message);
+        VideoView videoView = dialogView.findViewById(R.id.videoView);
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+        dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialog_background));
+
+
+        // Cài đặt tiêu đề và nội dung riêng cho mỗi loại rác
+        switch (detectedClass) {
+            case "Nhựa":
+                builder.setTitle("Loại rác: Nhựa");
+                builder.setMessage("Hãy xử lý rác nhựa cẩn thận để giảm thiểu ô nhiễm môi trường.");
+                builder.setIcon(R.drawable.ic_plastic);  // Icon đại diện cho nhựa
+                videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.plastic));
+                break;
+            case "Kim loại":
+                builder.setTitle("Loại rác: Kim loại");
+                builder.setMessage("Kim loại có thể tái chế, hãy đảm bảo chúng không lẫn tạp chất.");
+                builder.setIcon(R.drawable.ic_metal);  // Icon đại diện cho kim loại
+                break;
+            case "Bìa cứng":
+                builder.setTitle("Loại rác: Bìa cứng");
+                builder.setMessage("Bìa cứng có thể tái chế, hãy gấp gọn và tránh để ướt.");
+                builder.setIcon(R.drawable.ic_cardboard);// Icon đại diện cho bìa cứng
+                videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.carton));
+                break;
+            case "Thủy tinh":
+                builder.setTitle("Loại rác: Thủy tinh");
+                builder.setMessage("Thủy tinh có thể tái chế, cẩn thận với các mảnh vỡ.");
+                builder.setIcon(R.drawable.ic_glass);  // Icon đại diện cho thủy tinh
+                videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.glass));
+                break;
+            case "Giấy":
+                builder.setTitle("Loại rác: Giấy");
+                builder.setMessage("Giấy có thể tái chế, đảm bảo không bị ẩm ướt.");
+                builder.setIcon(R.drawable.ic_paper);  // Icon đại diện cho giấy
+                videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.paper));
+                break;
+            default:
+                builder.setTitle("Loại rác không xác định");
+                builder.setMessage("Không xác định được loại rác.");
+                builder.setIcon(R.drawable.ic_unknown);  // Icon mặc định
+                break;
+        }
+        videoView.setOnPreparedListener(mp -> mp.setLooping(true));
+        videoView.start();
+        // Nút xác nhận cho dialog
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+        // Hiển thị dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -242,7 +408,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }
+
+
+
+
+
 
 
 

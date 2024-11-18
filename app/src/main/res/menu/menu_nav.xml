@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/itManHinhChinh"
+            android:icon="@drawable/img_13"
+            android:textColor="@android:color/primary_text_light"
+            android:title="Màn hình chính" />
+
+        <item
+            android:id="@+id/itThongtincanhan"
+            android:icon="@drawable/img_14"
+            android:title="Thông tin cá nhân" />
+
+        <item
+            android:id="@+id/itDoiMatKhau"
+            android:icon="@drawable/resetpassword"
+            android:title="Đổi mật khẩu" />
+
+
+
+
+
+
+        <item android:title="Tiện ích"
+            >
+            <menu>
+                <item
+                    android:id="@+id/itlichsunhandien"
+                    android:icon="@drawable/img_15"
+                    android:title="Lịch sử nhận diện" />
+
+                <item
+                    android:id="@+id/itDangXuat"
+                    android:icon="@drawable/logout"
+                    android:title="Đăng Xuất" />
+            </menu>
+        </item>
+    </group>
+</menu>

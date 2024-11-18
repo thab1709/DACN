@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manhinhchao2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chao2"
+    tools:context=".manhinhchao2">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+
+            android:text="WELLCOME VAA CLEAN-UP "
+            android:textColor="@color/white"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bkgintro1"
+            android:backgroundTint="#D1CACA"
+            android:elevation="3dp"
+            android:text="Login"
+            android:textColor="#f3a02b"
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/btnSigin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bkgintro1"
+            android:backgroundTint="#CCAFAF"
+            android:elevation="3dp"
+            android:text="Register"
+            android:textColor="#CCA190"
+            android:textSize="25dp" />
+
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

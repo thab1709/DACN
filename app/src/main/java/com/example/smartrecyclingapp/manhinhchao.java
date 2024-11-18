@@ -36,18 +36,16 @@ public class manhinhchao extends AppCompatActivity {
             // Animation dịch chuyển trên trục Y khi video kết thúc
             videoView.animate().translationY(9000).setDuration(2000).withEndAction(() -> {
                 // Chuyển sang MainActivity sau khi video kết thúc và animation hoàn tất
-                Intent intent = new Intent(manhinhchao.this, MainActivity.class);
+                Intent intent = new Intent(manhinhchao.this, manhinhchao2.class);
                 startActivity(intent);
                 finish(); // Đóng activity hiện tại để không quay lại khi nhấn nút Back
             }).start();
         });
 
         // Áp dụng WindowInsets cho các thành phần giao diện
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.videoView), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+
+
     }
 }
 
