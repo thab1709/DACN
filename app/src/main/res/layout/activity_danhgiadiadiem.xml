@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:ignore="ExtraText">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Hãy đánh giá dịa điểm ?"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:progressTint="#ffee00"
+        android:rating="0"
+        android:stepSize="1" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="178dp"
+        android:src="@drawable/tk" />
+
+    <EditText
+        android:id="@+id/editDanhGia"
+        android:layout_width="match_parent"
+        android:layout_height="224dp"
+        android:background="#f3f4d1"
+        android:gravity="top|start"
+        android:hint="Nhập nội dung"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/btnGuiDanhGia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button"
+        android:text="Gửi"
+        android:textColor="#32C321"
+    android:textSize="20dp"
+    android:textStyle="italic" />
+</LinearLayout>

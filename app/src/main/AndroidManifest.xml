@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Thêm quyền truy cập bộ nhớ và sử dụng camera -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Định nghĩa tính năng camera trước, không bắt buộc -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Quyền truy cập vị trí -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Định nghĩa tính năng camera trước, không bắt buộc -->
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="false" />
@@ -18,8 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartRecyclingApp"
         tools:targetApi="31">
-
-        <!-- Khai báo các Activity -->
+        <activity
+            android:name=".danhgiadiadiem"
+            android:exported="false" />
+        <activity
+            android:name=".RecycleLocationActivity"
+            android:exported="false" /> <!-- Thêm Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAkI1JAKDioFNWiS_LUpk9N1n-emaQXZKA" /> <!-- Khai báo các Activity -->
         <activity
             android:name=".HistoryActivity"
             android:exported="false" />
@@ -35,6 +44,7 @@
             android:theme="@style/Theme.SmartRecyclingApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -52,4 +62,5 @@
             android:exported="true"
             android:launchMode="singleTop" />
     </application>
+
 </manifest>

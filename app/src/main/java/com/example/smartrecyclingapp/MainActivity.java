@@ -294,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
         dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialog_background));
+        Button disposalLocationButton = dialogView.findViewById(R.id.disposalLocationButton);
 
 
         // Cài đặt tiêu đề và nội dung riêng cho mỗi loại rác
@@ -333,6 +334,11 @@ public class MainActivity extends AppCompatActivity {
                 builder.setIcon(R.drawable.ic_unknown);  // Icon mặc định
                 break;
         }
+        disposalLocationButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecycleLocationActivity.class);
+            intent.putExtra("wasteType", detectedClass); // Truyền loại rác qua Intent
+            startActivity(intent);
+        });
         videoView.setOnPreparedListener(mp -> mp.setLooping(true));
         videoView.start();
         // Nút xác nhận cho dialog
